@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
-//This is where the login page for both student and faculty will go
+//This is where the login page for students will go
 
 @Component({
   selector: 'app-login',
-  templateUrl: 'login.component.html', 
+  templateUrl: 'login.component.html',
+  imports: [RouterModule],
   styleUrls: ['login.component.css'] 
 })
 
