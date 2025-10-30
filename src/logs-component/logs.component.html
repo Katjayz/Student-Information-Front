@@ -1,5 +1,28 @@
-<div *ngIf="check">
-    <ng-container *ngFor="let number of array">
-            {{number}}
-    </ng-container>
-</div>
+<main>
+  <div class="main-card" style="max-width: 900px;">
+    <h2>Logs & Information Editor</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Editor</th>
+          <th>Target Student</th>
+          <th>Field Changed</th>
+          <th>Before</th>
+          <th>After</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.editor }}</td>
+          <td>{{ log.target }}</td>
+          <td>{{ log.field }}</td>
+          <td>{{ log.before }}</td>
+          <td>{{ log.after }}</td>
+          <td>{{ log.time }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

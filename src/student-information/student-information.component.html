@@ -1,3 +1,81 @@
-<div>
-    <h1 >Hello {{ variable }}!</h1>
-</div>
+<main>
+  <div class="main-card">
+    <h2>Student Information</h2>
+
+    <form (ngSubmit)="onSave()" #studentForm="ngForm">
+      <div class="form-section">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="student.name"
+          placeholder="John Doe"
+          required
+        />
+
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="student.email"
+          placeholder="student@uwec.edu"
+          required
+        />
+
+        <label for="address">Address</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          [(ngModel)]="student.address"
+          placeholder="123 University Ave, Eau Claire, WI"
+        />
+
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          [(ngModel)]="student.phone"
+          placeholder="715-555-1234"
+        />
+
+        <label for="gpa">GPA</label>
+        <input
+          type="number"
+          id="gpa"
+          name="gpa"
+          [(ngModel)]="student.gpa"
+          step="0.01"
+          placeholder="3.8"
+        />
+
+        <label for="credits">Credits</label>
+        <input
+          type="number"
+          id="credits"
+          name="credits"
+          [(ngModel)]="student.credits"
+          placeholder="16"
+        />
+
+        <label for="balance">Balance</label>
+        <input
+          type="number"
+          id="balance"
+          name="balance"
+          [(ngModel)]="student.balance"
+          step="0.01"
+          placeholder="0.00"
+        />
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn">Save Changes</button>
+        <button type="button" class="btn btn-secondary" (click)="onLogout()">Log Out</button>
+      </div>
+    </form>
+  </div>
+</main>

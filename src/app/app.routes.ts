@@ -7,10 +7,11 @@ import { LogsComponent } from '../logs-component/logs.component';
 import { FacultyLoginComponent } from '../faculty-login-component/faculty-login.component';
 
 export const routes: Routes = [
-      { path: '', component: LoginComponent },
-      { path: 'studentInformation', component: StudentInformationComponent},
-      { path: 'test', component: TestComponent},
-      { path: 'addStudent', component: AddStudentComponent},
-      { path: 'logs', component: LogsComponent},
-      { path: 'facultyLogin', component: FacultyLoginComponent},
+  { path: '', redirectTo: 'student-login', pathMatch: 'full' },
+  { path: 'student-login', component: LoginComponent },
+  { path: 'student-list', component: StudentInformationComponent },
+  { path: 'test', component: TestComponent },
+  { path: 'add-student', component: AddStudentComponent },
+  { path: 'logs', component: LogsComponent },
+  { path: 'faculty-login', component: FacultyLoginComponent },
 ];
