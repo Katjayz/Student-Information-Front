@@ -28,7 +28,7 @@ export class LoginComponent {
       .subscribe(response => {
         this.roleService.saveToken(response.token);
           });
-    }
+  
         this.router.navigate(['/example']);
     }
 
