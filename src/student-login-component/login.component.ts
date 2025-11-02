@@ -18,7 +18,7 @@ export class LoginComponent {
   email = '';
   password = '';
 
-    constructor(public router: Router, public roleService: RoleService) {}
+    constructor(public router: Router, private roleService: RoleService) {}
 
     
     loginVariable: string = "login please";
@@ -35,9 +35,13 @@ export class LoginComponent {
     onSubmit() {
       // Later, connect this to backend for real login validation
     if (this.email && this.password) {
+      this.roleService.studentLogin(this.email,this.password)
+      .subscribe(response => {
+        this.roleService.saveToken(response.token);
+          });
       localStorage.setItem('role', 'student');
       localStorage.setItem('email', this.email);
-      this.router.navigate(['/student-info']);
+      this.router.navigate(['/student-list']);
     }
   }
 }

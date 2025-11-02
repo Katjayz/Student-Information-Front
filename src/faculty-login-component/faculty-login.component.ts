@@ -22,17 +22,16 @@ export class FacultyLoginComponent {
     loginVariable: string = "login please";
 
     navigate() {
-        this.roleService.facultyLogin('john.smith@email.com','JohnsP@$$word')
-      .subscribe(response => {
-        this.roleService.saveToken(response.token);
-          });
-  
-        this.router.navigate(['/example']);
+        
     }
 
     onSubmit() {
       if (this.email && this.password) {
         // Simulated login — replace with backend call later
+        this.roleService.facultyLogin(this.email,this.password)
+      .subscribe(response => {
+        this.roleService.saveToken(response.token);
+          });
         localStorage.setItem('role', 'faculty');
         localStorage.setItem('email', this.email);
         this.router.navigate(['/student-list']);

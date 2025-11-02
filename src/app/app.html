@@ -3,9 +3,9 @@
   <nav>
     <a routerLink="/student-login" routerLinkActive="active">Student Login</a>
     <a routerLink="/faculty-login" routerLinkActive="active">Faculty Login</a>
-    <a routerLink="/student-list" routerLinkActive="active">Student List</a>
-    <a routerLink="/add-student" routerLinkActive="active">Add Student</a>
-    <a routerLink="/logs" routerLinkActive="active">Logs</a>
+    <a *ngIf="roleService.getRole() == 'FACULTY' || roleService.getRole() == 'STUDENT'" routerLink="/student-list" routerLinkActive="active">Student List</a>
+    <a *ngIf="roleService.getRole() == 'FACULTY'" routerLink="/add-student" routerLinkActive="active">Add Student</a>
+    <a *ngIf="roleService.getRole() == 'FACULTY' || roleService.getRole() == 'STUDENT'" routerLink="/logs" routerLinkActive="active">Logs</a>
   </nav>
 </header>
 
