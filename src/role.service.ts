@@ -34,11 +34,16 @@ export class RoleService{
   }
 
   getRole(): string | null {
-    const token =localStorage.getItem(this.tokenKey);
-    if (!token){
-       return null;
+    if (typeof window != 'undefined') { 
+      const token =localStorage.getItem(this.tokenKey);
+      if (!token){
+        return null;
+      }
+      const decoded: any = jwtDecode(token);
+      return decoded?.role||null;
+    } else {
+      return null;
     }
-    const decoded: any = jwtDecode(token);
-    return decoded?.role||null;
+    
   }
 }

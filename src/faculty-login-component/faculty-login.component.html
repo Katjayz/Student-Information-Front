@@ -22,7 +22,7 @@
         [(ngModel)]="password"
         required
       />
-
+      <div *ngIf="failToLogin" class="failed">Login failed, please try again</div>
       <button type="submit">Log In</button>
     </form>
 
