@@ -47,18 +47,21 @@ export class StudentInformationComponent implements OnInit {
   studentList: Student[] = [];
 
   id = '0';
+  role: string | null = null;
+  isEditing = false;
 
   constructor(private router: Router, public roleService: RoleService, private http: HttpClient) {}
 
   ngOnInit(): void {
-    if (this.roleService.getRole() == "FACULTY"){
+    this.role = this.roleService.getRole();
+    if (this.role == "FACULTY"){
       this.http.get<Student[]>(this.apiUrl+'getStudentList')
       .subscribe(response => {
         this.studentList = response;
         console.log(this.studentList)
       })
 
-    } else if (this.roleService.getRole() == "STUDENT"){
+    } else if (this.role == "STUDENT"){
       if (this.roleService.getId() != null) {
         this.id = this.roleService.getId() ?? '0';
       }
@@ -70,10 +73,15 @@ export class StudentInformationComponent implements OnInit {
     }
   }
 
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
+  }
+
   onSave() {
     this.http.post(this.apiUrl + "updateStudent", this.student).subscribe()
     console.log('Saved student info:', this.student);
     alert('Information saved successfully!');
+    this.isEditing = false;
   }
 
   onLogout() {

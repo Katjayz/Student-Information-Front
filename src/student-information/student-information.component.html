@@ -1,8 +1,25 @@
 <main>
-  <div class="main-card">
-    <h2>Student Information</h2>
+  <div class="main-card" *ngIf="role === 'student'">
+    <h2>My Student Information</h2>
 
-    <form (ngSubmit)="onSave()" #studentForm="ngForm">
+    <!-- VIEW MODE -->
+    <div *ngIf="!isEditing">
+      <p><strong>Name:</strong> {{ student.name }}</p>
+      <p><strong>Email:</strong> {{ student.email }}</p>
+      <p><strong>Address:</strong> {{ student.address }}</p>
+      <p><strong>Phone:</strong> {{ student.phone }}</p>
+      <p><strong>GPA:</strong> {{ student.gpa }}</p>
+      <p><strong>Credits:</strong> {{ student.credits }}</p>
+      <p><strong>Balance:</strong> ${{ student.balance }}</p>
+
+      <div class="button-group">
+        <button class="btn" (click)="toggleEdit()">Edit Info</button>
+        <button type="button" class="btn btn-secondary" (click)="onLogout()">Log Out</button>
+      </div>
+    </div>
+
+    <!-- EDIT MODE -->
+    <form *ngIf="isEditing" (ngSubmit)="onSave()" #studentForm="ngForm">
       <div class="form-section">
         <label for="fname">First Name</label>
         <input
@@ -30,7 +47,6 @@
           id="email"
           name="email"
           [(ngModel)]="student.email"
-          placeholder="student@uwec.edu"
           required
         />
 
@@ -40,7 +56,6 @@
           id="address"
           name="address"
           [(ngModel)]="student.address"
-          placeholder="123 University Ave, Eau Claire, WI"
         />
 
         <label for="phone">Phone Number</label>
@@ -49,7 +64,6 @@
           id="phone"
           name="phone"
           [(ngModel)]="student.phone"
-          placeholder="715-555-1234"
         />
 
         <label for="gpa">GPA</label>
@@ -59,7 +73,6 @@
           name="gpa"
           [(ngModel)]="student.gpa"
           step="0.01"
-          placeholder="3.8"
         />
 
         <label for="credits">Credits</label>
@@ -68,7 +81,6 @@
           id="credits"
           name="credits"
           [(ngModel)]="student.credits"
-          placeholder="16"
         />
 
         <label for="balance">Balance</label>
@@ -78,14 +90,42 @@
           name="balance"
           [(ngModel)]="student.balance"
           step="0.01"
-          placeholder="0.00"
         />
       </div>
 
       <div class="button-group">
         <button type="submit" class="btn">Save Changes</button>
-        <button type="button" class="btn btn-secondary" (click)="onLogout()">Log Out</button>
+        <button type="button" class="btn btn-secondary" (click)="toggleEdit()">Cancel</button>
       </div>
     </form>
+  </div>
+
+  <!-- FACULTY VIEW -->
+  <div class="main-card" *ngIf="role === 'faculty'">
+    <h2>All Students</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>GPA</th>
+          <th>Credits</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of students">
+          <td>{{ s.name }}</td>
+          <td>{{ s.email }}</td>
+          <td>{{ s.gpa }}</td>
+          <td>{{ s.credits }}</td>
+          <td>${{ s.balance }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" (click)="onLogout()">Log Out</button>
+    </div>
   </div>
 </main>
