@@ -2,8 +2,14 @@
   <div class="main-card">
     <h2>Add New Student</h2>
     <form (ngSubmit)="onSubmit()" #addForm="ngForm">
-      <label for="name">Name</label>
-      <input id="name" name="name" [(ngModel)]="student.name" placeholder="Example Student" required />
+      <label for="fname">First Name</label>
+      <input id="fame" name="fname" [(ngModel)]="student.firstName" placeholder="Student" required />
+
+      <label for="lname">Last Name</label>
+      <input id="lname" name="lname" [(ngModel)]="student.lastName" placeholder="Example" required />
+
+      <label for="id">Id</label>
+      <input id="id" name="id" type="id" [(ngModel)]="student.id" placeholder="1" required />
 
       <label for="email">Email</label>
       <input id="email" name="email" type="email" [(ngModel)]="student.email" placeholder="studentNM@uwec.edu" required />
