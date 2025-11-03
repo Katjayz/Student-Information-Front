@@ -46,4 +46,18 @@ export class RoleService{
     }
     
   }
+
+  getId(): string | null {
+    if (typeof window != 'undefined') { 
+      const token =localStorage.getItem(this.tokenKey);
+      if (!token){
+        return null;
+      }
+      const decoded: any = jwtDecode(token);
+      return decoded?.sub||null;
+    } else {
+      return null;
+    }
+    
+  }
 }
