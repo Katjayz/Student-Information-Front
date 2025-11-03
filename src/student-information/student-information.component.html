@@ -1,10 +1,11 @@
 <main>
-  <div class="main-card" *ngIf="role === 'student'">
+  <div class="main-card" *ngIf="role === 'STUDENT'">
     <h2>My Student Information</h2>
 
     <!-- VIEW MODE -->
     <div *ngIf="!isEditing">
-      <p><strong>Name:</strong> {{ student.name }}</p>
+      <p><strong>First Name:</strong> {{ student.firstName }}</p>
+      <p><strong>Last Name:</strong> {{ student.lastName }}</p>
       <p><strong>Email:</strong> {{ student.email }}</p>
       <p><strong>Address:</strong> {{ student.address }}</p>
       <p><strong>Phone:</strong> {{ student.phone }}</p>
@@ -19,6 +20,122 @@
     </div>
 
     <!-- EDIT MODE -->
+    <form *ngIf="isEditing" (ngSubmit)="onSave()" #studentForm="ngForm">
+      <div class="form-section">
+        <label for="fname">First Name</label>
+        <input
+          type="text"
+          id="fname"
+          name="fname"
+          [(ngModel)]="student.firstName"
+          placeholder="John"
+          required
+        />
+
+        <label for="lname">Last Name</label>
+        <input
+          type="text"
+          id="lname"
+          name="lname"
+          [(ngModel)]="student.lastName"
+          placeholder="Doe"
+          required
+        />
+
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="student.email"
+          required
+        />
+
+        <label for="address">Address</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          [(ngModel)]="student.address"
+        />
+
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          [(ngModel)]="student.phone"
+        />
+        <!---
+        <label for="gpa">GPA</label>
+        <input
+          type="number"
+          id="gpa"
+          name="gpa"
+          [(ngModel)]="student.gpa"
+          step="0.01"
+        />
+
+        <label for="credits">Credits</label>
+        <input
+          type="number"
+          id="credits"
+          name="credits"
+          [(ngModel)]="student.credits"
+        />
+
+        <label for="balance">Balance</label>
+        <input
+          type="number"
+          id="balance"
+          name="balance"
+          [(ngModel)]="student.balance"
+          step="0.01"
+        />
+      -->
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn">Save Changes</button>
+        <button type="button" class="btn btn-secondary" (click)="toggleEdit()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- FACULTY VIEW -->
+  <div class="main-card" style="max-width: fit-content; min-width: 500px;" *ngIf="role === 'FACULTY'">
+    <ng-container *ngIf="!isEditing" >
+    <h2>All Students</h2>
+    <h3>Click on a row to edit the student</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>GPA</th>
+          <th>Credits</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of studentList" (click)="selectStudent(s)">
+          <td>{{ s.firstName }}</td>
+          <td>{{ s.lastName }}</td>
+          <td>{{ s.email }}</td>
+          <td>{{ s.gpa }}</td>
+          <td>{{ s.credits }}</td>
+          <td>${{ s.balance }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" (click)="onLogout()">Log Out</button>
+    </div>
+  
+   </ng-container>
+   <!-- EDIT MODE -->
     <form *ngIf="isEditing" (ngSubmit)="onSave()" #studentForm="ngForm">
       <div class="form-section">
         <label for="fname">First Name</label>
@@ -88,6 +205,7 @@
           type="number"
           id="balance"
           name="balance"
+          [readonly]="true"
           [(ngModel)]="student.balance"
           step="0.01"
         />
@@ -95,37 +213,9 @@
 
       <div class="button-group">
         <button type="submit" class="btn">Save Changes</button>
+        <button type="button" class="btn" (click)="chargeTuition()">Charge Tuition</button>
         <button type="button" class="btn btn-secondary" (click)="toggleEdit()">Cancel</button>
       </div>
     </form>
-  </div>
-
-  <!-- FACULTY VIEW -->
-  <div class="main-card" *ngIf="role === 'faculty'">
-    <h2>All Students</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>GPA</th>
-          <th>Credits</th>
-          <th>Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let s of students">
-          <td>{{ s.name }}</td>
-          <td>{{ s.email }}</td>
-          <td>{{ s.gpa }}</td>
-          <td>{{ s.credits }}</td>
-          <td>${{ s.balance }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="button-group">
-      <button type="button" class="btn btn-secondary" (click)="onLogout()">Log Out</button>
     </div>
-  </div>
 </main>

@@ -62,6 +62,12 @@ nav a:hover {
     text-align: center;
 }
 
+.main-card h3 {
+    color: var(--uwec-blue);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 form {
     display: flex;
     flex-direction: column;

@@ -49,6 +49,7 @@ export class StudentInformationComponent implements OnInit {
   id = '0';
   role: string | null = null;
   isEditing = false;
+  readonly tuition = 7000;
 
   constructor(private router: Router, public roleService: RoleService, private http: HttpClient) {}
 
@@ -87,5 +88,14 @@ export class StudentInformationComponent implements OnInit {
   onLogout() {
     localStorage.clear();
     this.router.navigate(['/student-login']);
+  }
+  
+  selectStudent(newStudent: Student) {
+    this.student = newStudent;
+    this.isEditing = true;
+  }
+
+  chargeTuition(){
+    this.student.balance = this.student.balance - this.tuition;
   }
 }
