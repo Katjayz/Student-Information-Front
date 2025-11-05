@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +15,7 @@ interface LogEntry {
 @Component({
   selector: 'app-logs',
   templateUrl: 'logs.component.html',
-  imports: [NgIf, NgFor, CommonModule],
+  imports: [NgFor, CommonModule],
   standalone: true
 })
 

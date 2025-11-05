@@ -33,6 +33,12 @@ header {
 
 header h1 {
     font-size: 1.4em;
+    cursor: default;
+    user-select: none;
+}
+
+h2 {
+    user-select: none;
 }
 
 nav a {
@@ -118,6 +124,11 @@ th, td {
     padding: 10px;
     border-bottom: 1px solid var(--uwec-gray);
     text-align: left;
+}
+
+tr:hover {
+    cursor: pointer;
+    background-color:var(--uwec-gold);
 }
 
 th {
