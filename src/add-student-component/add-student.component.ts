@@ -82,9 +82,21 @@ export class AddStudentComponent {
     this.isValidPhone = /^\d{10}$/.test(this.student.phone);
   }
 
+   isValidId = true;
+  validateId(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    if (input.value.length>4) {
+      input.value = input.value.slice(0, 4);
+    }
+    this.student.id = Number(input.value);
+    this.isValidId = /^\d{4}$/.test(input.value);
+  }
+
   isValidFirstName = true;
   isValidLastName = true;
   validateName(event: any, type: 'first' | 'last') {
+    console.log("validating name...")
     const input = event.target as HTMLInputElement;
     const cleanValue = input.value.replace(/[^a-zA-Z\s\u00C0-\u017F-]/g, '');
     input.value = cleanValue;

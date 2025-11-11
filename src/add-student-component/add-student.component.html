@@ -29,8 +29,12 @@
         type="id" 
         [(ngModel)]="student.id" 
         placeholder="1" 
+         (input)="validateId($event)"
         required 
       />
+      <p *ngIf="!isValidId" style="color: red; font-size: 0.9em;">
+        Id must be 4 digits long
+      </p>
 
       <label for="email">Email</label>
       <input 

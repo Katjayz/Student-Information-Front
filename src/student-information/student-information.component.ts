@@ -60,7 +60,6 @@ export class StudentInformationComponent implements OnInit {
       this.http.get<Student[]>(this.apiUrl+'getStudentList')
       .subscribe(response => {
         this.studentList = response;
-        console.log(this.studentList)
       })
 
     } else if (this.role == "STUDENT"){
