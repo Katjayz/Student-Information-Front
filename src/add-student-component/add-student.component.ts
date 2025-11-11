@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 //This is where the student information access will go
 
@@ -48,5 +47,54 @@ export class AddStudentComponent {
 
   cancel() {
     this.router.navigate(['/student-list']);
+  }
+
+  isValidEmail = true;
+  validateEmail(event: any) {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+    this.isValidEmail = value.endsWith('@uwec.edu');
+  }
+  
+  validateGPA(event: any) {
+    const input = event.target as HTMLInputElement;
+    let value = parseFloat(input.value);
+    if (isNaN(value) || value < 0) value = 0;
+    if (value > 4) value = 4;
+    this.student.gpa = value;
+    input.value = value.toString();
+  }
+
+  isValidAddress = true;
+  validateAddress(event: any) {
+    const input = event.target as HTMLInputElement;
+    const cleanValue = input.value.replace(/[^a-zA-Z0-9\s,.\u00C0-\u017F]/g, '');
+    this.student.address = cleanValue;
+    input.value = cleanValue;
+    this.isValidAddress = cleanValue === input.value;
+  }
+
+  isValidPhone = true;
+  validatePhone(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    this.student.phone = input.value;
+    this.isValidPhone = /^\d{10}$/.test(this.student.phone);
+  }
+
+  isValidFirstName = true;
+  isValidLastName = true;
+  validateName(event: any, type: 'first' | 'last') {
+    const input = event.target as HTMLInputElement;
+    const cleanValue = input.value.replace(/[^a-zA-Z\s\u00C0-\u017F-]/g, '');
+    input.value = cleanValue;
+
+    if (type == 'first') {
+      this.student.firstName = cleanValue;
+      this.isValidFirstName = /^[a-zA-Z\s\u00C0-\u017F-]+$/.test(cleanValue);
+    } else {
+      this.student.lastName = cleanValue;
+      this.isValidLastName = /^[a-zA-Z\s\u00C0-\u017F-]+$/.test(cleanValue);
+    }
   }
 }

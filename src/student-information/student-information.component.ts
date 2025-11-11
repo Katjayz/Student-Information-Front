@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RoleService } from '../role.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { EventDispatcher } from '@angular/core/primitives/event-dispatch';
 
 interface Student {
     id: number;
@@ -32,7 +33,7 @@ export class StudentInformationComponent implements OnInit {
   private apiUrl = 'http://localhost:8080/api/';
 
   student: Student = {
-     id: 0,
+    id: 0,
     firstName: '',
     lastName: '',
     email: '',
@@ -74,8 +75,19 @@ export class StudentInformationComponent implements OnInit {
     }
   }
 
+  backupStudent: Student | null = null;
   toggleEdit() {
-    this.isEditing = !this.isEditing;
+    if(!this.isEditing) {
+      // Store a copy before editing
+      this.backupStudent = { ...this.student };
+      this.isEditing = true;
+    } else {
+      // cancel button restores backup
+      if (this.backupStudent) {
+        this.student = { ...this.backupStudent };
+      }
+      this.isEditing = false;
+    }
   }
 
   onSave() {
@@ -98,4 +110,31 @@ export class StudentInformationComponent implements OnInit {
   chargeTuition(){
     this.student.balance = this.student.balance - this.tuition;
   }
+
+  isValidPhone = true;
+  validatePhone(event: any) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    this.student.phone = input.value;
+    this.isValidPhone = /^\d{10}$/.test(this.student.phone);
+  }
+
+  validateGPA(event: any) {
+    const input = event.target as HTMLInputElement;
+    let value = parseFloat(input.value);
+    if (isNaN(value) || value < 0) value = 0;
+    if (value > 4) value = 4;
+    this.student.gpa = value;
+    input.value = value.toString();
+  }
+
+  isValidAddress = true;
+  validateAddress(event: any) {
+    const input = event.target as HTMLInputElement;
+    const cleanValue = input.value.replace(/[^a-zA-Z0-9\s,.\u00C0-\u017F]/g, '');
+    this.student.address = cleanValue;
+    input.value = cleanValue;
+    this.isValidAddress = cleanValue === input.value;
+  }
+
 }

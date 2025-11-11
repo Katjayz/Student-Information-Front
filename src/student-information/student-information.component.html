@@ -32,6 +32,8 @@
           id="address"
           name="address"
           [(ngModel)]="student.address"
+          placeholder="1234 Main St"
+          (input)="validateAddress($event)"
         />
 
         <label for="phone">Phone Number</label>
@@ -40,6 +42,10 @@
           id="phone"
           name="phone"
           [(ngModel)]="student.phone"
+          placeholder="7155551234"
+          maxlength="10"
+          required 
+          (input)="validatePhone($event)"
         />
       </div>
 
@@ -98,6 +104,9 @@
           name="gpa"
           [(ngModel)]="student.gpa"
           step="0.01"
+          min="0"
+          max="4"
+          (input)="validateGPA($event)"
         />
 
         <label for="credits">Credits</label>
