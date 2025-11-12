@@ -36,7 +36,7 @@ export class LoginComponent {
           if (response != null) {
             this.roleService.saveToken(response.token);
             localStorage.setItem('userEmail', this.email);
-            this.router.navigate(['/student-information']);
+            this.router.navigate(['/student-list']);
           } else {
             this.failToLogin = true;
             localStorage.removeItem('userEmail');
