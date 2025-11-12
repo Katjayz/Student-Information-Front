@@ -21,23 +21,35 @@ export class LoginComponent {
   password = '';
   failToLogin = false;
 
-    constructor(public router: Router, private roleService: RoleService) {}
+  constructor(public router: Router, private roleService: RoleService) {}
 
     
-    loginVariable: string = "login please";
+  loginVariable: string = "login please";
 
-    onSubmit() {
-      // Later, connect this to backend for real login validation
+  onSubmit() {
     if (this.email && this.password) {
-      this.roleService.studentLogin(this.email,this.password)
-      .subscribe(response => {
-        if (response != null ) {
-          this.roleService.saveToken(response.token);
-          this.router.navigate(['/student-list']);
-        } else {
-          this.failToLogin = true;
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('role_token');
+      this.roleService.studentLogin(this.email, this.password)
+      .subscribe({
+        next: (response) => {
+          if (response != null) {
+            this.roleService.saveToken(response.token);
+            localStorage.setItem('userEmail', this.email);
+            this.router.navigate(['/student-information']);
+          } else {
+            this.failToLogin = true;
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('role_token');
+          }
+        },
+          error: () => {
+            this.failToLogin = true;
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('role_token');
+          }
         }
-          });
+      );
     }
   }
 }

@@ -1,15 +1,14 @@
-import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
-import { CommonModule } from '@angular/common';
-
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule, NgFor } from '@angular/common';
 
 interface LogEntry {
-  editor: string;
-  target: string;
-  field: string;
-  before: string;
-  after: string;
-  time: string;
+  user_email: string;
+  role: string;
+  action: string;
+  status: string;
+  message: string;
+  created_at: string;
 }
 
 @Component({
@@ -18,27 +17,18 @@ interface LogEntry {
   imports: [NgFor, CommonModule],
   standalone: true
 })
+export class LogsComponent implements OnInit {
 
-//logs for displaying database changes and timestamps
+  logs: LogEntry[] = [];
 
-export class LogsComponent {
-  // Sample log data for now — this can later be replaced with data from the backend
-  logs: LogEntry[] = [
-    {
-      editor: 'Faculty1',
-      target: 'Student1',
-      field: 'GPA',
-      before: '3.1',
-      after: '3.5',
-      time: '2025-10-20 14:45'
-    },
-    {
-      editor: 'Admin',
-      target: 'Student2',
-      field: 'Balance',
-      before: '$500.00',
-      after: '$0.00',
-      time: '2025-10-19 09:12'
-    }
-  ];
+  // HttpClient lets you make GET requests to the backend.
+  constructor(private http: HttpClient) {}
+
+  // ngOnInit runs automatically when the page loads.
+  ngOnInit(): void {
+    this.http.get<LogEntry[]>('http://localhost:8080/api/logs').subscribe((data) => {
+      // Stores the data you get from the backend into the logs array.
+      this.logs = data;
+    });
+  }
 }

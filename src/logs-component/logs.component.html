@@ -1,28 +1,24 @@
-<main>
-  <div class="main-card" style="max-width: 900px;">
-    <h2>Logs & Information Editor</h2>
+<h2>Audit Logs</h2>
+<table>
+  <thead>
+    <tr>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Editor</th>
-          <th>Target Student</th>
-          <th>Field Changed</th>
-          <th>Before</th>
-          <th>After</th>
-          <th>Timestamp</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let log of logs">
-          <td>{{ log.editor }}</td>
-          <td>{{ log.target }}</td>
-          <td>{{ log.field }}</td>
-          <td>{{ log.before }}</td>
-          <td>{{ log.after }}</td>
-          <td>{{ log.time }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</main>
+      <th>User Email</th>
+      <th>Role</th>
+      <th>Action</th>
+      <th>Status</th>
+      <th>Message</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of logs">
+      <td>{{(log.action && log.action.toUpperCase().includes('LOGIN') && log.status?.toUpperCase() === 'FAILURE')? '—': log.user_email}}</td>
+      <td>{{ log.role }}</td>
+      <td>{{ log.action }}</td>
+      <td>{{ log.status }}</td>
+      <td>{{ log.message }}</td>
+      <td>{{ log.created_at }}</td>
+    </tr>
+  </tbody>
+</table>

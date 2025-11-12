@@ -90,10 +90,58 @@ export class StudentInformationComponent implements OnInit {
   }
 
   onSave() {
-    this.http.post(this.apiUrl + "updateStudent", this.student).subscribe()
-    console.log('Saved student info:', this.student);
-    alert('Information saved successfully!');
-    this.isEditing = false;
+    //This basically just gets rid of any characters not allowed when editing info like /n or space
+    this.student.email = this.student.email.trim().toLowerCase();
+    this.student.address = this.student.address.trim();
+    this.student.phone = this.student.phone.replace(/\D/g, '');
+    this.student.firstName = this.student.firstName.trim();
+    this.student.lastName = this.student.lastName.trim();
+    
+    let url = this.apiUrl;
+    if (this.role === 'FACULTY') {
+      // Faculty editing
+      const facultyEmail = localStorage.getItem('userEmail') || 'unknown@uwec.edu';
+      url += `facultyUpdateStudent?facultyEmail=${facultyEmail}`;
+    } else {
+      // Student editing
+      url += 'updateStudent';
+    }
+
+    this.http.post(url, this.student, { observe: 'response', responseType: 'text' })
+      .subscribe({
+        next: (res) => {
+          if (res.status === 200) {
+            alert(res.body);
+            this.isEditing = false;
+            if (this.role === 'FACULTY') {
+              this.router.navigate(['/student-list']);
+            } else {
+              this.loadStudent();
+              this.router.navigate(['/student-information']);
+            }
+          } else {
+            alert('Unexpected response: ' + res.statusText);
+          }
+        },
+        error: (err) => {
+          const msg = err.error ? err.error : 'Update failed.';
+          alert(msg);
+        }
+      }
+    );
+  }
+
+  loadStudent() {
+    if (this.roleService.getId() != null) {
+      this.id = this.roleService.getId() ?? '0';
+    }
+    const params = new HttpParams().set('id', this.id);
+    this.http.get<Student>(this.apiUrl + "getStudent", { params })
+      .subscribe({
+        next: (data) => { this.student = data; },
+        error: (err) => { console.error("Failed to load student:", err); }
+      }
+    );
   }
 
   onLogout() {

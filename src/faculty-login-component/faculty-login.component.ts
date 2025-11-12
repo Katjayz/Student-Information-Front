@@ -22,17 +22,30 @@ export class FacultyLoginComponent {
     
   constructor(public router: Router, public roleService: RoleService) {}
 
-    onSubmit() {
-      if (this.email && this.password) {
-        this.roleService.facultyLogin(this.email,this.password)
-      .subscribe(response => {
-        if (response != null ) {
-          this.roleService.saveToken(response.token);
-          this.router.navigate(['/student-list']);
-        } else {
-          this.failToLogin = true;
+  onSubmit() {
+    if (this.email && this.password) {
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('role_token');
+      this.roleService.facultyLogin(this.email, this.password)
+        .subscribe({
+          next: (response) => {
+            if (response != null) {
+              this.roleService.saveToken(response.token);
+              localStorage.setItem('userEmail', this.email);
+              this.router.navigate(['/student-list']);
+            } else {
+              this.failToLogin = true;
+              localStorage.removeItem('userEmail');
+              localStorage.removeItem('role_token');
+            }
+          },
+          error: () => {
+            this.failToLogin = true;
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('role_token');
+          }
         }
-          });
-      }
+      );
     }
+  }
 }
