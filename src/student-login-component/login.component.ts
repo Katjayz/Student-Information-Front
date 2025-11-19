@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,12 +16,16 @@ import { NgIf } from '@angular/common';
   styleUrls: ['login.component.css'] 
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email = '';
   password = '';
   failToLogin = false;
 
   constructor(public router: Router, private roleService: RoleService) {}
+  
+  ngOnInit(): void {
+    localStorage.clear();
+  }
 
     
   loginVariable: string = "login please";

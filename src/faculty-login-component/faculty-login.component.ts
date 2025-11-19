@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -15,12 +15,16 @@ import { NgIf } from '@angular/common';
   styleUrls: ['faculty-login.component.css'] 
 })
 
-export class FacultyLoginComponent {
+export class FacultyLoginComponent implements OnInit {
   email = '';
   password = '';
   failToLogin = false;
     
   constructor(public router: Router, public roleService: RoleService) {}
+
+  ngOnInit(): void {
+    localStorage.clear();
+  }
 
   onSubmit() {
     if (this.email && this.password) {
